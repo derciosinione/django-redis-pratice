@@ -11,6 +11,8 @@ class Red:
 
   def get(cache_key):
     cache_data = rds.get(cache_key)
+    if not cache_data:
+      return None
     cache_data = json.loads(cache_data)
     return cache_data
 

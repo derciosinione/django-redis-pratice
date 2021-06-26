@@ -11,7 +11,7 @@ def friends(request):
   cache_data = Red.get('api')
   if cache_data:
     return cache_data
-  
+
   time.sleep(2)
   obj = list(Friends.objects.values())
   cache_data = Red.set("api", obj)
