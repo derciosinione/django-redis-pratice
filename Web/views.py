@@ -10,7 +10,8 @@ import time
 def friends(request):
   cache_data = Red.get('api')
   if cache_data:
-    return cache_data
+    return JsonResponse(cache_data, safe=False)
+
 
   time.sleep(2)
   obj = list(Friends.objects.values())
