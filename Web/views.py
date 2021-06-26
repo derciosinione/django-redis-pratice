@@ -8,7 +8,12 @@ import time
 
 
 def friends(request):
+  start_time = time.time()
+  
   cache_data = Red.get('api')
+  end_time = time.time()
+  print(f'{(end_time-start_time):.2f}')
+  
   if cache_data:
     print('Got from Redis')
     return JsonResponse(cache_data, safe=False)
