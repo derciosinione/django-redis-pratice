@@ -7,7 +7,10 @@ class Red:
   def set(cache_key, data):
     data = json.dumps(data)
     rds.set(cache_key, data)
+    return True
 
   def get(cache_key):
-    pass
+    cache_data = rds.get(cache_key)
+    cache_data = json.loads(cache_data)
+    return cache_data
 
