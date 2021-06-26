@@ -8,5 +8,6 @@ from .utils import Red
 
 
 def friends(request):
+  test = Red.get('test')
   obj = list(Friends.objects.values())
   return JsonResponse(obj, safe=False)
