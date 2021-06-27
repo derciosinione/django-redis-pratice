@@ -6,6 +6,6 @@ from .utils import Red
 @receiver([post_save, post_delete])
 def save_friends(sender, instance, **kwargs):
   if sender.__name__!="LogEntry":
-    obj = sender.objects.values()
+    obj = list(sender.objects.values())
     cache_data = Red.set(sender.__name__, obj)
     print(cache_data)
