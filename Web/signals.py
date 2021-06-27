@@ -4,7 +4,7 @@ from .utils import Redis
 
 
 @receiver([post_save, post_delete])
-def save_friends(sender, instance, **kwargs):
+def save_data(sender, instance, **kwargs):
   if sender.__name__!="LogEntry":
     obj = list(sender.objects.values())
     Redis.set(sender.__name__, obj)
