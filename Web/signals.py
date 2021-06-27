@@ -1,11 +1,10 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
-from .utils import Red
+from .utils import Redis
 
 
 @receiver([post_save, post_delete])
 def save_friends(sender, instance, **kwargs):
   if sender.__name__!="LogEntry":
     obj = list(sender.objects.values())
-    cache_data = Red.set(sender.__name__, obj)
-    print(cache_data)
+    Redis.set(sender.__name__, obj)
