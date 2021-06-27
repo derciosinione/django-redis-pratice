@@ -7,19 +7,20 @@ from .utils import Red
 import time
 
 
+
+  # return render(request, 'Web/render.html', {"obj": obj} )
+
 def friends(request):
   start_time = time.time()
-  
+
   cache_data = Red.get('api')
   end_time = time.time()
-  print(f'{(end_time-start_time):.2f}')
-  
+  print(f'{(end_time-start_time):.3f} got: {len(cache_data)} data')
+
   if cache_data:
     print('Got from Redis')
     return JsonResponse(cache_data, safe=False)
 
-
-  time.sleep(2)
   obj = list(Friends.objects.values())
   print('Got from Postgres')
   cache_data = Red.set("api", obj)
