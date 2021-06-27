@@ -14,7 +14,5 @@ def create_friends(sender, instance, created, **kwargs):
 
 @receiver(post_save)
 def save_friends(sender, instance, **kwargs):
-  if sender.__name__=="LogEntry":
-    pass
-  else:
+  if sender.__name__!="LogEntry":
     print(sender.__name__)
