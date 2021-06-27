@@ -16,4 +16,3 @@ def save_friends(sender, instance, **kwargs):
     print(sender.__name__)
     obj = sender.objects.values()
     print(obj)
-
