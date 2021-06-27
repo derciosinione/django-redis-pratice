@@ -23,6 +23,6 @@ def friends(request):
   obj = list(Friends.objects.values())
   print('Got from Postgres')
   end_time = time.time()
-  print(f'{(end_time-start_time):.3f} got: {len(cache_data)} data')
+  print(f'{(end_time-start_time):.3f} got: {len(obj)} data')
   cache_data = Red.set(Friends.__name__, obj)
   return JsonResponse(obj, safe=False)
