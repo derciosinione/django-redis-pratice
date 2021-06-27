@@ -6,8 +6,6 @@ from .models import Friends
 @receiver(post_save, sender=Friends)
 def create_friends(sender, instance, created, **kwargs):
   if created:
-    print("Created")
-    print(created)
     print(instance)
 
 
@@ -16,3 +14,6 @@ def create_friends(sender, instance, created, **kwargs):
 def save_friends(sender, instance, **kwargs):
   if sender.__name__!="LogEntry":
     print(sender.__name__)
+    obj = sender.objects.values()
+    print(obj)
+
