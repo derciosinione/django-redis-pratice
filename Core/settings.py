@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!(bvo5@m@q20#ke#qglmsxy$l*m^o&e^6z4n)nbzj(#zru$vp$'
+SECRET_KEY = 'django-insecure--u@uky)pxn1^29f0u@pzv$4a^i*567mu5cwpo__7i$-*road!t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,12 +37,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'debug_toolbar',
+    # My App
+    'Api',
+
+    # Third App
+    'graphene_django',
+    'django_filters',
+	'corsheaders',
+
+    'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
+
 ]
 
-INSTALLED_APPS += [
-    'debug_toolbar',
-    'Web'
-]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,11 +60,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
 
-MIDDLEWARE += [
+    'corsheaders.middleware.CorsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+#  ««« MY MIDDLEWARE
+# MIDDLEWARE += [
+#     'debug_toolbar.middleware.DebugToolbarMiddleware',
+#     'corsheaders.middleware.CorsMiddleware',
+# ]
 
 ROOT_URLCONF = 'Core.urls'
 
@@ -82,12 +95,9 @@ WSGI_APPLICATION = 'Core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# postgresql_psycopg2
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
-    "default": {
+     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "HOST": "localhost",
         "USER": "devderone",
@@ -95,21 +105,12 @@ DATABASES = {
         "PASSWORD": "devderone2021",
         "PORT": 5432,
     },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 }
 
-
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": "redis://dsderone:dsderone123@127.0.0.1:6379/2",
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient"
-#         },
-#         "KEY_PREFIX": "django_redis"
-#     }
-# }
-
-# CACHE_TTL = 60 * 15
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -153,6 +154,49 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ========================= MY CONFICURATIONS
+AUTH_USER_MODEL = 'Api.Users'
+
+# Configuração do local onde os ficheiros de upload serão guardados
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+
+#Access-Control-Allow-Headers
+#CORS_ORIGIN_WHITELIST = [
+#   "http://localhost:3000",
+#]
+
+CORS_ORIGIN_ALLOW_ALL = True
+# LOGIN_URL='/admin/login/'
+
+
+# =================== GRAPHQL =====================
+GRAPHENE = {
+"ATOMIC_MUTATIONS": True,
+'SCHEMA': 'Core.schema.schema',
+"SCHEMA_INDENT": 4,
+"MIDDLEWARE": [
+    "graphene_django.debug.DjangoDebugMiddleware",
+    'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ]
+}
+
+GRAPHQL_JWT = {
+'JWT_ALLOW_ARGUMENT': True,
+'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
+}
+# =================== END GRAPHQL =====================
+
+
+AUTHENTICATION_BACKENDS = [
+    # Django
+    'django.contrib.auth.backends.ModelBackend',
+    # Graphql
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    'Core.auth.EmailBackend' # Login trhough Email and Username
+]
 
 
 INTERNAL_IPS = [

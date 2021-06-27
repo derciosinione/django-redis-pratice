@@ -1,1 +1,1 @@
-# Django and Redis pratices
+# bulk-sms-email-back-end

@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  api:
+    stdin_open: true
+    # container_name: api
+    volumes:
+      - .:/code
+      - static:/static
+    env_file:
+      - .env
+    build:
+      context: .
+    command: python manage.py runserver 0.0.0.0:8085
+    # command: gunicorn Core.wsgi:application --bind 0.0.0.0:8000
+    ports:
+      - '8085:8085'
+
+volumes:
+  static:
