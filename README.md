@@ -1,1 +1,1 @@
-# Django and Redis pratice
+# Django and Redis pratices
