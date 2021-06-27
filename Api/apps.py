@@ -5,5 +5,5 @@ class ApiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'Api'
 
-    def ready(self):
-        import Api.signals
+    # def ready(self):
+    #     import Api.signals

@@ -1,5 +1,6 @@
 import redis
 import json
+from django.core.serializers.json import DjangoJSONEncoder
 
 rds = redis.StrictRedis(host='localhost', port=6379, db=0)
 
