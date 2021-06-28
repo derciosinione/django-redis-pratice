@@ -15,6 +15,10 @@ import time
 def friends_redis(request):
   cache_data = Redis.get(Friends.__name__)
   if cache_data:
+    cache_data = [Friends(id=item['id'], name=item['name'], age=item['age'], email=item['email'],
+          owner=Users.objects.get(pk=item['owner_id']), creation_date=item['creation_date'])
+          for item in cache_data
+        ]
     return render(request, 'Api/render.html', {"obj": cache_data})
   return render(request, 'Api/render.html', {"obj": cache_data})
 
