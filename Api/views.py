@@ -20,17 +20,13 @@ def friends_redis(request):
 
 
 def friends(request):
-  obj = list(Friends.objects.select_related().values())
-  # print(obj[0])
-  Redis.set(Friends.__name__, obj)
-  # friends = list()
-  # for item in obj:
-  #   owner = Users.objects.get(pk=item['owner_id'])
-  #   friends.append(Friends(id=item['id'], name=item['name'], age=item['age'], email=item['email'], owner=owner, creation_date=item['creation_date']))
-  
   start_time = time.time()
-  obj = [Friends(id=item['id'], name=item['name'], age=item['age'], email=item['email'], owner=Users.objects.get(pk=item['owner_id']), creation_date=item['creation_date'])
-               for item in obj]
+  obj = list(Friends.objects.select_related().values())
+  Redis.set(Friends.__name__, obj)
+  obj = [Friends(id=item['id'], name=item['name'], age=item['age'], email=item['email'],
+          owner=Users.objects.get(pk=item['owner_id']), creation_date=item['creation_date'])
+          for item in obj
+        ]
   end_time = time.time()
-  print(f'it take {(end_time-start_time):.4f}s')
+  print(f'it take {(end_time-start_time):.2f}s')
   return render(request, 'Api/render.html', {"obj": obj})
