@@ -20,7 +20,7 @@ def friends_redis(request):
 
 def friends(request):
   obj = list(Friends.objects.values())
-  my = json.dumps(obj, sort_keys=True, indent=1, cls=DjangoJSONEncoder)
+  my = json.dumps(obj, indent=1, cls=DjangoJSONEncoder)
   print(my)
   # Redis.set(Friends.__name__, obj)
   return render(request, 'Api/render.html', {"obj": obj})

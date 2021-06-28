@@ -6,7 +6,7 @@ rds = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 class Redis:
   def set(cache_key, data):
-    data = json.dumps(data)
+    data = json.dumps(data, cls=DjangoJSONEncoder)
     rds.set(cache_key, data)
     return True
 
