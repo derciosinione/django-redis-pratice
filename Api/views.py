@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 
-from .models import Friends
+from .models import Friends, Users
 from .utils import Redis
 from django.db.models.functions import Cast
 from django.db.models import CharField, TextField
@@ -19,8 +19,12 @@ def friends_redis(request):
 
 
 def friends(request):
-  obj = list(Friends.objects.values())
-  my = json.dumps(obj, indent=1, cls=DjangoJSONEncoder)
-  print(my)
-  # Redis.set(Friends.__name__, obj)
-  return render(request, 'Api/render.html', {"obj": obj})
+  obj = list(Friends.objects.select_related().values())
+  # print(obj[0])
+  Redis.set(Friends.__name__, obj)
+  friends = list()
+  for item in obj:
+    # friends.id = item['id']
+    owner = Users.objects.get(pk=item['owner_id'])
+    friends.append(Friends(id=item['id'], name=item['name'], age=item['age'], email=item['email'], owner=owner, creation_date=item['creation_date']))
+  return render(request, 'Api/render.html', {"obj": friends})

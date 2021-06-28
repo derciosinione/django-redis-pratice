@@ -8,7 +8,7 @@
 </head>
 <body>
   {% for item in obj %}
-  <h4>{{item.name}} - {{item.email}}</h4>
+  <h4>{{item.name}} - {{item.email}} - {{item.owner.username}}</h4>
   {% endfor %}
 </body>
 </html>
